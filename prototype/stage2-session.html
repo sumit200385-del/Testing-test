@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stage 2 Field Test — abckedn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .fail-input { animation: slideDown 0.2s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <!-- Sidebar (Priya Sharma) -->
+  <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 transition-transform duration-200">
+    <div class="h-16 flex items-center px-5 border-b border-gray-200 flex-shrink-0">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+        <i data-lucide="cpu" class="text-white w-4 h-4"></i>
+      </div>
+      <span class="text-lg font-bold text-gray-900">abckedn</span>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <a href="dashboard.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="firmware-list.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>Firmware Versions</span>
+      </a>
+      <a href="stage1-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="flask-conical" class="w-4 h-4"></i>
+        <span>Stage 1 – Sanity Test</span>
+      </a>
+      <a href="stage2-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-orange-50 text-orange-700 font-semibold text-sm">
+        <i data-lucide="car" class="w-4 h-4"></i>
+        <span>Stage 2 – Field Test</span>
+      </a>
+      <a href="stage3-signoff.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Stage 3 – Final Sign-off</span>
+      </a>
+      <a href="changelog.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="scroll-text" class="w-4 h-4"></i>
+        <span>Change Log</span>
+      </a>
+    </nav>
+    <div class="border-t border-gray-200 p-4 flex items-center space-x-3">
+      <div class="w-9 h-9 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">P</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-gray-800 truncate">Priya Sharma</div>
+        <div class="text-xs text-gray-500 truncate">Operations Lead</div>
+      </div>
+      <a href="index.html" class="text-gray-400 hover:text-gray-600"><i data-lucide="log-out" class="w-4 h-4"></i></a>
+    </div>
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <div class="flex-1 ml-64">
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center px-6 sticky top-0 z-10">
+      <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-gray-700 mr-3">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+      <nav class="flex items-center space-x-2 text-sm flex-1">
+        <a href="stage2-session.html" class="text-gray-500 hover:text-blue-600">Stage 2 – Field Test</a>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <span class="text-gray-500">v2.4.1</span>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <span class="text-gray-900 font-semibold">Session #2841</span>
+      </nav>
+      <div class="flex items-center space-x-2">
+        <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700">Operations Lead</span>
+        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">P</div>
+      </div>
+    </header>
+
+    <main class="p-6 space-y-5">
+
+      <!-- Session Header -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+            <i data-lucide="car" class="text-orange-600 w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-lg font-bold text-gray-900">Stage 2 — Field Testing</h1>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">IN PROGRESS</span>
+            </div>
+            <div class="flex items-center space-x-4 mt-1 flex-wrap gap-y-1">
+              <span class="text-sm text-gray-600 font-medium">v2.4.1</span>
+              <span class="text-gray-300">|</span>
+              <span class="text-sm text-gray-500">VTD-PRO-4G</span>
+              <span class="text-gray-300">|</span>
+              <span class="text-xs text-gray-500 flex items-center space-x-1">
+                <i data-lucide="user" class="w-3 h-3"></i>
+                <span>Priya Sharma</span>
+              </span>
+              <span class="text-gray-300">|</span>
+              <span class="text-xs text-gray-500">Started May 25, 2026</span>
+              <span class="text-gray-300">|</span>
+              <span class="text-xs text-gray-500">Session #2841</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 1 Approved Banner -->
+      <div class="flex items-center space-x-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+        <i data-lucide="check-circle" class="text-emerald-500 w-4 h-4 flex-shrink-0"></i>
+        <p class="text-sm text-emerald-800">
+          <strong>Stage 1 ✓ Approved</strong> by Dr. Rajan Mehta on May 24, 2026 —
+          <em class="text-emerald-700">"All sanity checks passed. Protocol compliant. Approved for field testing."</em>
+        </p>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-5 gap-3">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-gray-800" id="stat-total">34</div>
+          <div class="text-xs text-gray-500 mt-1">Total</div>
+        </div>
+        <div class="bg-green-50 rounded-xl border border-green-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-green-700" id="stat-pass">16</div>
+          <div class="text-xs text-green-600 mt-1">Pass</div>
+        </div>
+        <div class="bg-red-50 rounded-xl border border-red-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-red-700" id="stat-fail">1</div>
+          <div class="text-xs text-red-600 mt-1">Fail</div>
+        </div>
+        <div class="bg-yellow-50 rounded-xl border border-yellow-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-yellow-700" id="stat-skip">1</div>
+          <div class="text-xs text-yellow-600 mt-1">Skip</div>
+        </div>
+        <div class="bg-gray-50 rounded-xl border border-gray-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-gray-500" id="stat-pending">16</div>
+          <div class="text-xs text-gray-400 mt-1">Pending</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="relative group">
+            <button id="markCompleteBtn" disabled
+              class="bg-gray-300 text-gray-500 cursor-not-allowed px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Mark Session Complete</span>
+            </button>
+            <div id="markCompleteTooltip" class="absolute bottom-full left-0 mb-2 bg-gray-800 text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              16 tests still pending
+            </div>
+          </div>
+          <button class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Save Progress</span>
+          </button>
+        </div>
+        <div class="text-sm text-gray-500">
+          <span id="progressPct">53%</span> complete
+          <div class="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden mt-1">
+            <div id="progressBar" class="h-full bg-orange-500 rounded-full transition-all" style="width: 53%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="flex items-start space-x-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+        <i data-lucide="info" class="text-amber-500 w-4 h-4 flex-shrink-0 mt-0.5"></i>
+        <p class="text-sm text-amber-800">
+          <strong>Next step:</strong> Once all field tests are completed, Operations sign-off by <strong>Priya Sharma</strong> is required before proceeding to Stage 3 (Sales Team final sign-off).
+        </p>
+      </div>
+
+      <!-- Test Categories -->
+      <div class="space-y-3">
+
+        <!-- Cat 1: Vehicle Movement -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="navigation" class="text-orange-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Vehicle Movement</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-green-600">4 passed</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">All Pass</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">GPS Tracking During Motion</div><div class="text-xs text-gray-400 mt-0.5">Verify GPS location updates every 5 seconds while vehicle is moving</div><div class="text-xs text-gray-400 mt-0.5">Expected: Location update ≤ 5s interval, accuracy ±10m</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Stationary Detection</div><div class="text-xs text-gray-400 mt-0.5">When vehicle stationary > 2 min, switch to 60s update interval</div><div class="text-xs text-gray-400 mt-0.5">Expected: Update rate drops to 60s within 2 min of stopping</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Trip Start / Stop Detection</div><div class="text-xs text-gray-400 mt-0.5">Verify automatic trip detection based on ignition + motion events</div><div class="text-xs text-gray-400 mt-0.5">Expected: TRIP_START within 10s, TRIP_END within 30s of stop</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Odometer Data Accuracy</div><div class="text-xs text-gray-400 mt-0.5">Compare device-reported distance vs actual route distance</div><div class="text-xs text-gray-400 mt-0.5">Expected: Deviation &lt; 3% over 50km route</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+          </div>
+        </div>
+
+        <!-- Cat 2: Driving Behavior -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="activity" class="text-blue-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Driving Behavior Events</div>
+                <div class="text-xs text-gray-400 mt-0.5">5 tests &nbsp;•&nbsp; <span class="text-green-600">4 passed</span> &nbsp;•&nbsp; <span class="text-gray-400">1 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">1 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Harsh Acceleration Detection (Field)</div><div class="text-xs text-gray-400 mt-0.5">Real vehicle harsh acceleration event capture in field conditions</div><div class="text-xs text-gray-400 mt-0.5">Expected: Event captured ≤ 1s, severity score populated</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Harsh Braking Detection (Field)</div><div class="text-xs text-gray-400 mt-0.5">Emergency brake test on test track — verify event capture</div><div class="text-xs text-gray-400 mt-0.5">Expected: HARSH_BRAKE event with g-force value</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Sharp Cornering Detection</div><div class="text-xs text-gray-400 mt-0.5">Verify lateral G-force detection on sharp corners (&gt; 0.4G)</div><div class="text-xs text-gray-400 mt-0.5">Expected: SHARP_CORNER event with lateral G value</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Over-Speed Alert (Field)</div><div class="text-xs text-gray-400 mt-0.5">Field test at 90+ km/h on highway, verify speed alert delivery</div><div class="text-xs text-gray-400 mt-0.5">Expected: Alert received at server within 3s</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-drv1">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">Driver Score Calculation</div><div class="text-xs text-gray-400 mt-0.5">Verify driver behavior score computed after each trip</div><div class="text-xs text-gray-400 mt-0.5">Expected: Score 0-100 present in trip summary packet</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-drv1">
+                <button onclick="markResult('drv1', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('drv1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('drv1', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cat 3: Ignition & Vehicle State -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="zap" class="text-red-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Ignition &amp; Vehicle State</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-green-600">1 passed</span> &nbsp;•&nbsp; <span class="text-red-500">1 failed</span> &nbsp;•&nbsp; <span class="text-gray-400">2 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">1 Fail</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Ignition ON Detection</div><div class="text-xs text-gray-400 mt-0.5">Verify IGN_ON event sent within 5 seconds of key turn</div><div class="text-xs text-gray-400 mt-0.5">Expected: IGN_ON packet &lt; 5s from ignition</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <!-- FAIL -->
+            <div class="px-5 py-3">
+              <div class="flex items-center justify-between">
+                <div class="flex-1"><div class="text-sm font-medium text-gray-800">ACC Line State Detection</div><div class="text-xs text-gray-400 mt-0.5">Verify accessory line (ACC) state changes are reported accurately</div><div class="text-xs text-gray-400 mt-0.5">Expected: ACC state change reported within 50ms</div></div>
+                <div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">FAIL</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div>
+              </div>
+              <div class="mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                <div class="text-xs font-medium text-red-600 mb-0.5">Actual Result:</div>
+                <div class="text-xs text-red-700">ACC line shows 200ms average delay vs expected 50ms. Intermittent — observed on 3 of 5 test cycles. Possible debounce parameter needs tuning.</div>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-ign1">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">Ignition OFF &amp; Sleep Mode</div><div class="text-xs text-gray-400 mt-0.5">After IGN_OFF, device should enter low-power sleep within 30s</div><div class="text-xs text-gray-400 mt-0.5">Expected: Current draw &lt; 5mA within 30s of ignition off</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-ign1">
+                <button onclick="markResult('ign1', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('ign1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('ign1', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-ign2">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">Wake-up from Sleep on IGN_ON</div><div class="text-xs text-gray-400 mt-0.5">Device in sleep should wake and reconnect within 30s of IGN_ON</div><div class="text-xs text-gray-400 mt-0.5">Expected: First packet after wake &lt; 30s from IGN_ON</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-ign2">
+                <button onclick="markResult('ign2', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('ign2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('ign2', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cat 4: Network & Communication -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="signal" class="text-indigo-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Network &amp; Communication</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-green-600">1 passed</span> &nbsp;•&nbsp; <span class="text-yellow-600">1 skipped</span> &nbsp;•&nbsp; <span class="text-gray-400">1 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">1 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Network Handover (4G → 2G)</div><div class="text-xs text-gray-400 mt-0.5">Drive through known weak signal zone, verify graceful fallback to 2G</div><div class="text-xs text-gray-400 mt-0.5">Expected: No data loss during handover, reconnect &lt; 30s</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Tunnel/Dead Zone Handling</div><div class="text-xs text-gray-400 mt-0.5">Drive through tunnel (no signal), verify data buffering and send-on-exit</div><div class="text-xs text-gray-400 mt-0.5">Expected: All data buffered, sent within 60s of exit — Tunnel testing pending</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">SKIP</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-net1">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">SIM Failover to Secondary SIM</div><div class="text-xs text-gray-400 mt-0.5">Disable primary carrier manually, verify auto-switch to secondary</div><div class="text-xs text-gray-400 mt-0.5">Expected: Failover within 60s, no manual intervention</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-net1">
+                <button onclick="markResult('net1', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('net1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('net1', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cat 5: GPS Accuracy -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="map-pin" class="text-green-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">GPS Accuracy</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-green-600">2 passed</span> &nbsp;•&nbsp; <span class="text-gray-400">2 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">2 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Open Sky GPS Accuracy</div><div class="text-xs text-gray-400 mt-0.5">Measure GPS accuracy in open area vs reference GPS</div><div class="text-xs text-gray-400 mt-0.5">Expected: ±5m in open sky conditions</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Urban Canyon GPS Accuracy</div><div class="text-xs text-gray-400 mt-0.5">GPS accuracy in dense urban environment (Pune city center)</div><div class="text-xs text-gray-400 mt-0.5">Expected: ±15m acceptable in urban conditions</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-gps1">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">GPS Fix Time (Cold Start)</div><div class="text-xs text-gray-400 mt-0.5">Power cycle device, measure time to first GPS fix</div><div class="text-xs text-gray-400 mt-0.5">Expected: TTFF &lt; 60s in open sky</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-gps1">
+                <button onclick="markResult('gps1', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('gps1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('gps1', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-gps2">
+              <div class="flex-1"><div class="text-sm font-medium text-gray-800">GPS Drift Correction Algorithm</div><div class="text-xs text-gray-400 mt-0.5">Verify v3 drift correction reduces position error on repeated routes</div><div class="text-xs text-gray-400 mt-0.5">Expected: &lt; 8m avg error vs reference track</div></div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-gps2">
+                <button onclick="markResult('gps2', 'pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('gps2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('gps2', 'skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remaining categories collapsed with pending tests -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-teal-100 rounded-lg flex items-center justify-center"><i data-lucide="thermometer" class="text-teal-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Environmental &amp; Operational</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-env1"><div class="flex-1"><div class="text-sm font-medium text-gray-800">High Temperature Operation (45°C+)</div><div class="text-xs text-gray-400 mt-0.5">Test device under summer peak temperatures in vehicle</div><div class="text-xs text-gray-400 mt-0.5">Expected: Normal operation, no thermal shutdown up to 70°C internal</div></div><div class="flex items-center space-x-2 ml-4" id="actions-env1"><button onclick="markResult('env1','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('env1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('env1','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-env2"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Vibration &amp; Shock Resistance</div><div class="text-xs text-gray-400 mt-0.5">Drive on rough road/off-road for 30 minutes, verify data integrity</div><div class="text-xs text-gray-400 mt-0.5">Expected: No connector issues, no data corruption</div></div><div class="flex items-center space-x-2 ml-4" id="actions-env2"><button onclick="markResult('env2','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('env2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('env2','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-env3"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Water Ingress Resistance (IP54)</div><div class="text-xs text-gray-400 mt-0.5">Simulate rain conditions (water spray), verify no device damage</div><div class="text-xs text-gray-400 mt-0.5">Expected: IP54 rating verified, device operational after test</div></div><div class="flex items-center space-x-2 ml-4" id="actions-env3"><button onclick="markResult('env3','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('env3')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('env3','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+          </div>
+        </div>
+
+        <!-- Real-Time Server -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center"><i data-lucide="server" class="text-cyan-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Real-Time Server Communication</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-srv1"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Live Tracking Dashboard Visibility</div><div class="text-xs text-gray-400 mt-0.5">Verify vehicle position visible on dashboard in real-time</div><div class="text-xs text-gray-400 mt-0.5">Expected: Position updates on dashboard &lt; 10s delay</div></div><div class="flex items-center space-x-2 ml-4" id="actions-srv1"><button onclick="markResult('srv1','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('srv1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('srv1','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-srv2"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Trip History Completeness</div><div class="text-xs text-gray-400 mt-0.5">All trip waypoints stored and retrievable from server</div><div class="text-xs text-gray-400 mt-0.5">Expected: 100% waypoints persisted, retrievable via API</div></div><div class="flex items-center space-x-2 ml-4" id="actions-srv2"><button onclick="markResult('srv2','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('srv2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('srv2','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-srv3"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Server Reconnection After Outage</div><div class="text-xs text-gray-400 mt-0.5">Simulate 10-min server maintenance window, verify auto-reconnect</div><div class="text-xs text-gray-400 mt-0.5">Expected: Device reconnects within 60s of server availability</div></div><div class="flex items-center space-x-2 ml-4" id="actions-srv3"><button onclick="markResult('srv3','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('srv3')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('srv3','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+          </div>
+        </div>
+
+        <!-- Power & Battery -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-yellow-100 rounded-lg flex items-center justify-center"><i data-lucide="battery" class="text-yellow-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Power &amp; Battery</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pwr1"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Internal Battery Backup</div><div class="text-xs text-gray-400 mt-0.5">Disconnect vehicle power, verify internal battery sustains for 4h</div><div class="text-xs text-gray-400 mt-0.5">Expected: Device operational ≥ 4h on internal battery</div></div><div class="flex items-center space-x-2 ml-4" id="actions-pwr1"><button onclick="markResult('pwr1','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('pwr1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('pwr1','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pwr2"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Voltage Range Tolerance (9V–36V)</div><div class="text-xs text-gray-400 mt-0.5">Test device at minimum (9V) and maximum (36V) input voltage</div><div class="text-xs text-gray-400 mt-0.5">Expected: Normal operation throughout range</div></div><div class="flex items-center space-x-2 ml-4" id="actions-pwr2"><button onclick="markResult('pwr2','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('pwr2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('pwr2','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pwr3"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Power Cut Alert</div><div class="text-xs text-gray-400 mt-0.5">Simulate sudden power cut, verify POWER_CUT alert sent from battery</div><div class="text-xs text-gray-400 mt-0.5">Expected: POWER_CUT alert sent within 5s from internal battery</div></div><div class="flex items-center space-x-2 ml-4" id="actions-pwr3"><button onclick="markResult('pwr3','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('pwr3')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('pwr3','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+          </div>
+        </div>
+
+        <!-- Long Duration -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-slate-100 rounded-lg flex items-center justify-center"><i data-lucide="timer" class="text-slate-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Long-Duration Observation</div>
+                <div class="text-xs text-gray-400 mt-0.5">2 tests &nbsp;•&nbsp; <span class="text-gray-400">2 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">2 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-lng1"><div class="flex-1"><div class="text-sm font-medium text-gray-800">24-Hour Continuous Operation</div><div class="text-xs text-gray-400 mt-0.5">Leave device running 24h with vehicle on/off cycles, verify stability</div><div class="text-xs text-gray-400 mt-0.5">Expected: No crashes, no memory leaks, uptime &gt; 99.5%</div></div><div class="flex items-center space-x-2 ml-4" id="actions-lng1"><button onclick="markResult('lng1','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('lng1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('lng1','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-lng2"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Memory Leak &amp; Data Integrity (72h)</div><div class="text-xs text-gray-400 mt-0.5">Extended 72h test with daily data verification</div><div class="text-xs text-gray-400 mt-0.5">Expected: Memory usage stable, no data loss after 72h</div></div><div class="flex items-center space-x-2 ml-4" id="actions-lng2"><button onclick="markResult('lng2','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('lng2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('lng2','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+          </div>
+        </div>
+
+        <!-- Geo-Fence -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-pink-100 rounded-lg flex items-center justify-center"><i data-lucide="hexagon" class="text-pink-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Geo-Fence &amp; Alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-geo1"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Geo-Fence Entry Alert</div><div class="text-xs text-gray-400 mt-0.5">Drive into pre-defined geo-fence zone, verify entry alert</div><div class="text-xs text-gray-400 mt-0.5">Expected: GEO_ENTRY alert within 30s of boundary cross</div></div><div class="flex items-center space-x-2 ml-4" id="actions-geo1"><button onclick="markResult('geo1','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('geo1')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('geo1','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-geo2"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Geo-Fence Exit Alert</div><div class="text-xs text-gray-400 mt-0.5">Drive out of geo-fence zone, verify exit alert</div><div class="text-xs text-gray-400 mt-0.5">Expected: GEO_EXIT alert within 30s of boundary exit</div></div><div class="flex items-center space-x-2 ml-4" id="actions-geo2"><button onclick="markResult('geo2','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('geo2')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('geo2','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-geo3"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Multiple Concurrent Geo-Fences</div><div class="text-xs text-gray-400 mt-0.5">Configure 5 geo-fences simultaneously, verify all trigger correctly</div><div class="text-xs text-gray-400 mt-0.5">Expected: All 5 fences independently trigger alerts</div></div><div class="flex items-center space-x-2 ml-4" id="actions-geo3"><button onclick="markResult('geo3','pass')" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button><button onclick="markFail('geo3')" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button><button onclick="markResult('geo3','skip')" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button></div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Fail Modal -->
+  <div id="failModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+      <div class="flex items-center space-x-2 mb-4">
+        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+          <i data-lucide="x-circle" class="text-red-600 w-4 h-4"></i>
+        </div>
+        <h3 class="text-base font-semibold text-gray-900">Mark as FAIL — Add Details</h3>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Actual Result / Remarks <span class="text-red-500">*</span></label>
+        <textarea id="failRemarks" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none" placeholder="Describe what actually happened..."></textarea>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="confirmFail()" class="flex-1 bg-red-600 text-white hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Mark FAIL</button>
+        <button onclick="cancelFail()" class="flex-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    lucide.createIcons();
+    let counts = { pass: 16, fail: 1, skip: 1, pending: 16 };
+    let currentFailId = null;
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('overlay').classList.toggle('hidden');
+    }
+
+    function toggleCategory(btn) {
+      const body = btn.nextElementSibling;
+      const chevron = btn.querySelector('.chevron');
+      const isOpen = !body.classList.contains('hidden');
+      if (isOpen) { body.classList.add('hidden'); chevron.style.transform = 'rotate(180deg)'; }
+      else { body.classList.remove('hidden'); chevron.style.transform = 'rotate(0deg)'; }
+    }
+
+    function updateStats() {
+      document.getElementById('stat-pass').textContent = counts.pass;
+      document.getElementById('stat-fail').textContent = counts.fail;
+      document.getElementById('stat-skip').textContent = counts.skip;
+      document.getElementById('stat-pending').textContent = counts.pending;
+      const total = counts.pass + counts.fail + counts.skip + counts.pending;
+      const done = counts.pass + counts.fail + counts.skip;
+      const pct = Math.round((done / total) * 100);
+      document.getElementById('progressPct').textContent = pct + '%';
+      document.getElementById('progressBar').style.width = pct + '%';
+      const btn = document.getElementById('markCompleteBtn');
+      const tip = document.getElementById('markCompleteTooltip');
+      if (counts.pending === 0) {
+        btn.disabled = false;
+        btn.className = 'bg-green-600 text-white hover:bg-green-700 cursor-pointer px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2';
+        tip.textContent = '';
+      } else {
+        tip.textContent = counts.pending + ' test' + (counts.pending > 1 ? 's' : '') + ' still pending';
+      }
+    }
+
+    function markResult(id, result) {
+      counts.pending--;
+      if (result === 'pass') counts.pass++;
+      if (result === 'skip') counts.skip++;
+      const actionsEl = document.getElementById('actions-' + id);
+      if (!actionsEl) return;
+      const badges = { pass: 'bg-green-100 text-green-700', skip: 'bg-yellow-100 text-yellow-700' };
+      const labels = { pass: 'PASS', skip: 'SKIP' };
+      actionsEl.innerHTML = `<span class="px-2.5 py-1 rounded-full text-xs font-medium ${badges[result]}">${labels[result]}</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>`;
+      lucide.createIcons();
+      updateStats();
+    }
+
+    function markFail(id) {
+      currentFailId = id;
+      document.getElementById('failRemarks').value = '';
+      document.getElementById('failModal').classList.remove('hidden');
+    }
+
+    function cancelFail() {
+      currentFailId = null;
+      document.getElementById('failModal').classList.add('hidden');
+    }
+
+    function confirmFail() {
+      const remarks = document.getElementById('failRemarks').value.trim();
+      if (!remarks) { document.getElementById('failRemarks').focus(); return; }
+      const id = currentFailId;
+      counts.pending--;
+      counts.fail++;
+      const actionsEl = document.getElementById('actions-' + id);
+      const testEl = document.getElementById('test-' + id);
+      if (actionsEl) {
+        actionsEl.innerHTML = `<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">FAIL</span><button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>`;
+      }
+      if (testEl) {
+        const div = document.createElement('div');
+        div.className = 'mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2 fail-input';
+        div.innerHTML = `<div class="text-xs font-medium text-red-600 mb-0.5">Actual Result:</div><div class="text-xs text-red-700">${remarks}</div>`;
+        testEl.appendChild(div);
+      }
+      lucide.createIcons();
+      updateStats();
+      cancelFail();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stage 1 Session — abckedn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .fail-input { animation: slideDown 0.2s ease; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 transition-transform duration-200">
+    <div class="h-16 flex items-center px-5 border-b border-gray-200 flex-shrink-0">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+        <i data-lucide="cpu" class="text-white w-4 h-4"></i>
+      </div>
+      <span class="text-lg font-bold text-gray-900">abckedn</span>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <a href="dashboard.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="firmware-list.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>Firmware Versions</span>
+      </a>
+      <a href="stage1-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-semibold text-sm">
+        <i data-lucide="flask-conical" class="w-4 h-4"></i>
+        <span>Stage 1 – Sanity Test</span>
+      </a>
+      <a href="stage2-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="car" class="w-4 h-4"></i>
+        <span>Stage 2 – Field Test</span>
+      </a>
+      <a href="stage3-signoff.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Stage 3 – Final Sign-off</span>
+      </a>
+      <a href="changelog.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="scroll-text" class="w-4 h-4"></i>
+        <span>Change Log</span>
+      </a>
+    </nav>
+    <div class="border-t border-gray-200 p-4 flex items-center space-x-3">
+      <div class="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">A</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-gray-800 truncate">Arjun Singh</div>
+        <div class="text-xs text-gray-500 truncate">R&D Engineer</div>
+      </div>
+      <a href="index.html" class="text-gray-400 hover:text-gray-600"><i data-lucide="log-out" class="w-4 h-4"></i></a>
+    </div>
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <!-- Main -->
+  <div class="flex-1 ml-64">
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center px-6 sticky top-0 z-10">
+      <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-gray-700 mr-3">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+      <nav class="flex items-center space-x-2 text-sm flex-1">
+        <a href="stage1-session.html" class="text-gray-500 hover:text-blue-600">Stage 1 – Sanity Test</a>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <a href="firmware-detail.html" class="text-gray-500 hover:text-blue-600">v2.5.0-beta</a>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <span class="text-gray-900 font-semibold">Session #2847</span>
+      </nav>
+      <!-- Quick link to completed sign-off view -->
+      <a href="stage1-signoff.html" class="text-xs text-blue-600 hover:text-blue-800 flex items-center space-x-1 mr-4 border border-blue-200 px-2.5 py-1.5 rounded-lg bg-blue-50">
+        <i data-lucide="eye" class="w-3 h-3"></i>
+        <span>View Completed Session →</span>
+      </a>
+      <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">A</div>
+    </header>
+
+    <main class="p-6 space-y-5">
+
+      <!-- Session Header Card -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+              <i data-lucide="flask-conical" class="text-blue-600 w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h1 class="text-lg font-bold text-gray-900">Stage 1 — Sanity Testing</h1>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">IN PROGRESS</span>
+              </div>
+              <div class="flex items-center space-x-4 mt-1">
+                <span class="text-sm text-gray-600 font-medium">v2.5.0-beta</span>
+                <span class="text-gray-300">|</span>
+                <span class="text-sm text-gray-500">VTD-PRO-4G</span>
+                <span class="text-gray-300">|</span>
+                <span class="text-xs text-gray-500 flex items-center space-x-1">
+                  <i data-lucide="user" class="w-3 h-3"></i>
+                  <span>Arjun Singh</span>
+                </span>
+                <span class="text-gray-300">|</span>
+                <span class="text-xs text-gray-500 flex items-center space-x-1">
+                  <i data-lucide="clock" class="w-3 h-3"></i>
+                  <span>Started May 28, 2026 09:14 AM</span>
+                </span>
+                <span class="text-gray-300">|</span>
+                <span class="text-xs text-gray-500">Session #2847</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-5 gap-3">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-gray-800" id="stat-total">33</div>
+          <div class="text-xs text-gray-500 mt-1">Total</div>
+        </div>
+        <div class="bg-green-50 rounded-xl border border-green-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-green-700" id="stat-pass">14</div>
+          <div class="text-xs text-green-600 mt-1">Pass</div>
+        </div>
+        <div class="bg-red-50 rounded-xl border border-red-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-red-700" id="stat-fail">2</div>
+          <div class="text-xs text-red-600 mt-1">Fail</div>
+        </div>
+        <div class="bg-yellow-50 rounded-xl border border-yellow-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-yellow-700" id="stat-skip">4</div>
+          <div class="text-xs text-yellow-600 mt-1">Skip</div>
+        </div>
+        <div class="bg-gray-50 rounded-xl border border-gray-200 shadow-sm p-4 text-center">
+          <div class="text-2xl font-bold text-gray-500" id="stat-pending">13</div>
+          <div class="text-xs text-gray-400 mt-1">Pending</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="relative group">
+            <button id="markCompleteBtn" disabled
+              class="bg-gray-300 text-gray-500 cursor-not-allowed px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Mark Session Complete</span>
+            </button>
+            <div id="markCompleteTooltip" class="absolute bottom-full left-0 mb-2 bg-gray-800 text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              13 tests still pending
+            </div>
+          </div>
+          <button class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Save Progress</span>
+          </button>
+        </div>
+        <div class="text-sm text-gray-500">
+          <span id="progressPct">61%</span> complete
+          <div class="w-32 h-1.5 bg-gray-200 rounded-full overflow-hidden mt-1">
+            <div id="progressBar" class="h-full bg-blue-500 rounded-full transition-all" style="width: 61%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="flex items-start space-x-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+        <i data-lucide="info" class="text-amber-500 w-4 h-4 flex-shrink-0 mt-0.5"></i>
+        <p class="text-sm text-amber-800">
+          <strong>Sign-off required:</strong> Once all tests are completed, R&D Head (<strong>Dr. Rajan Mehta</strong>) will be required to review and sign off this stage before promoting to Stage 2 Field Testing.
+        </p>
+      </div>
+
+      <!-- Test Categories -->
+      <div class="space-y-3" id="testCategories">
+
+        <!-- Category 1: Device Connection -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="1">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="wifi" class="text-blue-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Device Connection</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-green-600">4 passed</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">All Pass</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Device Power-On and Boot Sequence</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify device boots successfully within 30 seconds</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Boot complete &lt; 30s, LED solid green</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">SIM Card Detection</div>
+                <div class="text-xs text-gray-400 mt-0.5">Confirm SIM is detected and IMSI read successfully</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: IMSI visible in diagnostic log</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Network Registration (4G LTE)</div>
+                <div class="text-xs text-gray-400 mt-0.5">Device must register on LTE network within 60 seconds</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Network status = REGISTERED</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Server Handshake & Authentication</div>
+                <div class="text-xs text-gray-400 mt-0.5">TCP connection to primary server with valid auth token</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: AUTH_OK received within 5 seconds</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 2: Packet Validation -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="2">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="package" class="text-indigo-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Packet Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">6 tests &nbsp;•&nbsp; <span class="text-green-600">4 passed</span> &nbsp;•&nbsp; <span class="text-red-500">1 failed</span> &nbsp;•&nbsp; <span class="text-gray-400">1 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">1 Fail</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Packet Header Format Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify all packet headers conform to VTD protocol v2.3 spec</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Header bytes 0x02, 0x01 in correct positions</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Packet Sequence Number Integrity</div>
+                <div class="text-xs text-gray-400 mt-0.5">Sequence numbers must increment monotonically without gaps</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: No sequence gaps over 1000 packets</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Timestamp Accuracy Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">Packet timestamps must be within ±2 seconds of server time</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Drift &lt; 2000ms</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Packet Size Compliance</div>
+                <div class="text-xs text-gray-400 mt-0.5">All packets must be within protocol-defined size boundaries</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: 64–512 bytes per packet</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <!-- FAIL -->
+            <div class="px-5 py-3">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-gray-800">CRC/Checksum Verification</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Verify CRC32 checksum on all data packets</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Expected: 0 checksum failures over 500 packets</div>
+                </div>
+                <div class="flex items-center space-x-2 ml-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">FAIL</span>
+                  <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+                </div>
+              </div>
+              <div class="mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                <div class="text-xs font-medium text-red-600 mb-0.5">Actual Result:</div>
+                <div class="text-xs text-red-700">Checksum mismatch detected on 3 packets (packet IDs: #187, #341, #498). Possible data corruption in transit buffer.</div>
+              </div>
+            </div>
+            <!-- PENDING -->
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pkt-pending">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Duplicate Packet Detection</div>
+                <div class="text-xs text-gray-400 mt-0.5">Server must reject duplicate packets based on sequence+timestamp</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: All duplicates rejected, no double-processing</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-pkt-pending">
+                <button onclick="markResult('pkt-pending', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors">
+                  <i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="markFail('pkt-pending')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors">
+                  <i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="markResult('pkt-pending', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors">
+                  <i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 3: CSV Data Validation -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="3">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="table-2" class="text-emerald-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">CSV Data Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">5 tests &nbsp;•&nbsp; <span class="text-green-600">2 passed</span> &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">CSV Header Row Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify CSV export contains all required column headers</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: 18 standard columns present</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">GPS Coordinate Format</div>
+                <div class="text-xs text-gray-400 mt-0.5">Latitude and longitude must be decimal degrees, 6 decimal places</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Format XX.XXXXXX, range ±90/±180</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-csv1">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Speed Data Accuracy</div>
+                <div class="text-xs text-gray-400 mt-0.5">Speed values in CSV must match OBD-II reading ±5 km/h</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Deviation &lt; 5 km/h</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-csv1">
+                <button onclick="markResult('csv1', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('csv1')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('csv1', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-csv2">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Timestamp UTC Alignment</div>
+                <div class="text-xs text-gray-400 mt-0.5">All CSV timestamps must be in UTC ISO 8601 format</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: YYYY-MM-DDTHH:MM:SSZ</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-csv2">
+                <button onclick="markResult('csv2', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('csv2')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('csv2', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-csv3">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Trip Summary Data Completeness</div>
+                <div class="text-xs text-gray-400 mt-0.5">End-of-trip CSV must include total distance, avg speed, max speed</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: All 3 summary fields non-null</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-csv3">
+                <button onclick="markResult('csv3', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('csv3')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('csv3', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 4: Simulated Alert Testing -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="4">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="bell" class="text-orange-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Simulated Alert Testing</div>
+                <div class="text-xs text-gray-400 mt-0.5">7 tests &nbsp;•&nbsp; <span class="text-green-600">3 passed</span> &nbsp;•&nbsp; <span class="text-yellow-600">1 skipped</span> &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">3 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Over-Speed Alert Generation</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate speed > 80 km/h, verify alert sent within 3 seconds</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Alert type = OVERSPEED, received within 3s</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Harsh Braking Alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate deceleration > 0.6G, verify harsh braking alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Alert type = HARSH_BRAKE within 1s</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Tamper Detection Alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate device removal, verify tamper alert with timestamp</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: TAMPER alert with device ID and UTC timestamp</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Geo-Fence Breach Alert (N/A for VTD-PRO-4G v2.5)</div>
+                <div class="text-xs text-gray-400 mt-0.5">Geo-fence alerting via cloud dashboard — not device-side</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: N/A — configured at server level</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">SKIP</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-alt1">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Rapid Acceleration Alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate acceleration > 0.5G, verify harsh acceleration alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: HARSH_ACCEL alert within 1s</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-alt1">
+                <button onclick="markResult('alt1', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('alt1')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('alt1', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-alt2">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">SOS Button Trigger Alert</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate SOS press, verify priority alert delivered first</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: SOS alert within 500ms, priority flag = HIGH</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-alt2">
+                <button onclick="markResult('alt2', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('alt2')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('alt2', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-alt3">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Alert Queue Under Poor Network</div>
+                <div class="text-xs text-gray-400 mt-0.5">Simulate network outage, verify alerts are queued and sent on reconnect</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: All queued alerts delivered within 30s of reconnection</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-alt3">
+                <button onclick="markResult('alt3', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('alt3')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('alt3', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 5: Packet Accuracy -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="5">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-violet-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="bar-chart-2" class="text-violet-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Packet Accuracy</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-gray-400">4 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">4 Pending</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pac1">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Packet Delivery Rate</div>
+                <div class="text-xs text-gray-400 mt-0.5">Measure packet delivery success rate over 1 hour continuous test</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: ≥ 98% delivery rate</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-pac1">
+                <button onclick="markResult('pac1', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('pac1')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('pac1', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pac2">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Packet Latency Measurement</div>
+                <div class="text-xs text-gray-400 mt-0.5">End-to-end latency from device to server acknowledgment</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: P95 latency &lt; 800ms</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-pac2">
+                <button onclick="markResult('pac2', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('pac2')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('pac2', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pac3">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Retransmission Behavior</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify automatic retransmission on ACK timeout</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Max 3 retries, exponential backoff</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-pac3">
+                <button onclick="markResult('pac3', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('pac3')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('pac3', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-pac4">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Burst Traffic Handling</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify no data loss when 100 packets sent in rapid burst</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: All 100 packets received, none dropped</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-pac4">
+                <button onclick="markResult('pac4', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('pac4')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('pac4', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 6: Configuration Testing -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="6">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-teal-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="settings" class="text-teal-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Configuration Testing</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-green-600">3 passed</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">All Pass</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Remote Configuration Update</div>
+                <div class="text-xs text-gray-400 mt-0.5">Push new config via OTA config command, verify applied</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Config ACK received, new values active within 10s</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Heartbeat Interval Configuration</div>
+                <div class="text-xs text-gray-400 mt-0.5">Change heartbeat interval from 60s to 30s via remote command</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Interval changes to 30s within next heartbeat cycle</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Factory Reset Behavior</div>
+                <div class="text-xs text-gray-400 mt-0.5">Execute factory reset command, verify default config restored</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: All params reset to factory defaults, re-auth required</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4">
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span>
+                <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 7: FOTA Testing -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden" data-category="7">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="download-cloud" class="text-red-600 w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">FOTA Testing</div>
+                <div class="text-xs text-gray-400 mt-0.5">4 tests &nbsp;•&nbsp; <span class="text-red-500">1 failed</span> &nbsp;•&nbsp; <span class="text-gray-400">3 pending</span></div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs font-medium">1 Fail</span>
+              <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+            </div>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <!-- FAIL -->
+            <div class="px-5 py-3">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-gray-800">FOTA Firmware Update Initiation</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Trigger FOTA update from server, verify download begins within 30s</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Expected: Download progress reported, no unexpected reboot</div>
+                </div>
+                <div class="flex items-center space-x-2 ml-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">FAIL</span>
+                  <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>
+                </div>
+              </div>
+              <div class="mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                <div class="text-xs font-medium text-red-600 mb-0.5">Actual Result:</div>
+                <div class="text-xs text-red-700">Device rebooted unexpectedly at 34% download progress during FOTA transfer. Requires investigation — likely watchdog timer conflict. Fix required before Stage 2.</div>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-fota1">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">FOTA Progress Reporting</div>
+                <div class="text-xs text-gray-400 mt-0.5">Verify FOTA download progress sent to server every 10%</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: 10 progress events (10%, 20%... 100%)</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-fota1">
+                <button onclick="markResult('fota1', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('fota1')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('fota1', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-fota2">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">Post-FOTA Version Verification</div>
+                <div class="text-xs text-gray-400 mt-0.5">After successful FOTA, device must report new firmware version</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Version in heartbeat = new firmware version string</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-fota2">
+                <button onclick="markResult('fota2', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('fota2')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('fota2', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+            <div class="px-5 py-3 flex items-center justify-between" id="test-fota3">
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-800">FOTA Dual-Server Failover</div>
+                <div class="text-xs text-gray-400 mt-0.5">Primary FOTA server unreachable — verify auto-switch to secondary</div>
+                <div class="text-xs text-gray-400 mt-0.5">Expected: Failover within 10s, download continues from secondary</div>
+              </div>
+              <div class="flex items-center space-x-2 ml-4" id="actions-fota3">
+                <button onclick="markResult('fota3', 'pass')" title="Mark Pass" class="w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200 flex items-center justify-center transition-colors"><i data-lucide="check" class="text-green-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markFail('fota3')" title="Mark Fail" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 flex items-center justify-center transition-colors"><i data-lucide="x" class="text-red-600 w-3.5 h-3.5"></i></button>
+                <button onclick="markResult('fota3', 'skip')" title="Skip" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 flex items-center justify-center transition-colors"><i data-lucide="minus" class="text-yellow-600 w-3.5 h-3.5"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end test categories -->
+    </main>
+  </div>
+
+  <!-- Fail Input Modal -->
+  <div id="failModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+      <div class="flex items-center space-x-2 mb-4">
+        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+          <i data-lucide="x-circle" class="text-red-600 w-4 h-4"></i>
+        </div>
+        <h3 class="text-base font-semibold text-gray-900">Mark as FAIL — Add Details</h3>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">Actual Result / Remarks <span class="text-red-500">*</span></label>
+        <textarea id="failRemarks" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none" placeholder="Describe what actually happened..."></textarea>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="confirmFail()" class="flex-1 bg-red-600 text-white hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Mark FAIL</button>
+        <button onclick="cancelFail()" class="flex-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // State tracking
+    let counts = { pass: 14, fail: 2, skip: 4, pending: 13 };
+    let currentFailId = null;
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('overlay').classList.toggle('hidden');
+    }
+
+    function toggleCategory(btn) {
+      const body = btn.nextElementSibling;
+      const chevron = btn.querySelector('.chevron');
+      const isOpen = !body.classList.contains('hidden');
+      if (isOpen) {
+        body.classList.add('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+      } else {
+        body.classList.remove('hidden');
+        chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function updateStats() {
+      document.getElementById('stat-pass').textContent = counts.pass;
+      document.getElementById('stat-fail').textContent = counts.fail;
+      document.getElementById('stat-skip').textContent = counts.skip;
+      document.getElementById('stat-pending').textContent = counts.pending;
+      const total = counts.pass + counts.fail + counts.skip + counts.pending;
+      const done = counts.pass + counts.fail + counts.skip;
+      const pct = Math.round((done / total) * 100);
+      document.getElementById('progressPct').textContent = pct + '%';
+      document.getElementById('progressBar').style.width = pct + '%';
+      const btn = document.getElementById('markCompleteBtn');
+      const tip = document.getElementById('markCompleteTooltip');
+      if (counts.pending === 0) {
+        btn.disabled = false;
+        btn.className = btn.className.replace('bg-gray-300 text-gray-500 cursor-not-allowed', 'bg-green-600 text-white hover:bg-green-700 cursor-pointer');
+        tip.textContent = '';
+      } else {
+        tip.textContent = counts.pending + ' test' + (counts.pending > 1 ? 's' : '') + ' still pending';
+      }
+    }
+
+    function markResult(id, result) {
+      counts.pending--;
+      if (result === 'pass') counts.pass++;
+      if (result === 'skip') counts.skip++;
+      const actionsEl = document.getElementById('actions-' + id);
+      if (!actionsEl) return;
+      const badges = { pass: 'bg-green-100 text-green-700', skip: 'bg-yellow-100 text-yellow-700' };
+      const labels = { pass: 'PASS', skip: 'SKIP' };
+      actionsEl.innerHTML = `
+        <span class="px-2.5 py-1 rounded-full text-xs font-medium ${badges[result]}">${labels[result]}</span>
+        <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>`;
+      lucide.createIcons();
+      updateStats();
+    }
+
+    function markFail(id) {
+      currentFailId = id;
+      document.getElementById('failRemarks').value = '';
+      document.getElementById('failModal').classList.remove('hidden');
+    }
+
+    function cancelFail() {
+      currentFailId = null;
+      document.getElementById('failModal').classList.add('hidden');
+    }
+
+    function confirmFail() {
+      const remarks = document.getElementById('failRemarks').value.trim();
+      if (!remarks) { document.getElementById('failRemarks').focus(); return; }
+      const id = currentFailId;
+      counts.pending--;
+      counts.fail++;
+      const actionsEl = document.getElementById('actions-' + id);
+      const testEl = document.getElementById('test-' + id);
+      if (actionsEl) {
+        actionsEl.innerHTML = `
+          <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">FAIL</span>
+          <button class="text-xs text-gray-400 hover:text-gray-600">Edit</button>`;
+      }
+      if (testEl) {
+        const existing = testEl.querySelector('.fail-detail');
+        if (!existing) {
+          const div = document.createElement('div');
+          div.className = 'mt-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2 fail-input fail-detail col-span-full';
+          div.innerHTML = `<div class="text-xs font-medium text-red-600 mb-0.5">Actual Result:</div><div class="text-xs text-red-700">${remarks}</div>`;
+          testEl.appendChild(div);
+        }
+      }
+      lucide.createIcons();
+      updateStats();
+      cancelFail();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — abckedn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 transition-transform duration-200">
+    <!-- Logo -->
+    <div class="h-16 flex items-center px-5 border-b border-gray-200 flex-shrink-0">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+        <i data-lucide="cpu" class="text-white w-4 h-4"></i>
+      </div>
+      <span class="text-lg font-bold text-gray-900">abckedn</span>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <a href="dashboard.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-semibold text-sm">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="firmware-list.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>Firmware Versions</span>
+      </a>
+      <a href="stage1-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="flask-conical" class="w-4 h-4"></i>
+        <span>Stage 1 – Sanity Test</span>
+      </a>
+      <a href="stage2-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="car" class="w-4 h-4"></i>
+        <span>Stage 2 – Field Test</span>
+      </a>
+      <a href="stage3-signoff.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Stage 3 – Final Sign-off</span>
+      </a>
+      <a href="changelog.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="scroll-text" class="w-4 h-4"></i>
+        <span>Change Log</span>
+      </a>
+    </nav>
+
+    <!-- User Footer -->
+    <div class="border-t border-gray-200 p-4 flex items-center space-x-3">
+      <div class="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">A</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-gray-800 truncate">Arjun Singh</div>
+        <div class="text-xs text-gray-500 truncate">R&D Engineer</div>
+      </div>
+      <a href="index.html" class="text-gray-400 hover:text-gray-600" title="Logout">
+        <i data-lucide="log-out" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="flex-1 ml-64">
+    <!-- Top bar -->
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-10">
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-gray-700">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div>
+          <h1 class="text-lg font-bold text-gray-900">Dashboard</h1>
+          <p class="text-xs text-gray-500">VTD Firmware Testing Protocol | abckedn platform</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="text-xs text-gray-400">May 28, 2026</span>
+        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">A</div>
+      </div>
+    </header>
+
+    <main class="p-6 space-y-6">
+
+      <!-- Stat Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-gray-500 font-medium">Total Firmware</span>
+            <div class="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center">
+              <i data-lucide="cpu" class="text-blue-600 w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-bold text-gray-900">4</div>
+          <div class="text-xs text-gray-400 mt-1">Across all platforms</div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-gray-500 font-medium">In Progress</span>
+            <div class="w-9 h-9 bg-amber-50 rounded-lg flex items-center justify-center">
+              <i data-lucide="clock" class="text-amber-600 w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-bold text-gray-900">2</div>
+          <div class="text-xs text-gray-400 mt-1">Active test sessions</div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-gray-500 font-medium">Approved</span>
+            <div class="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center">
+              <i data-lucide="check-circle" class="text-green-600 w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-bold text-gray-900">1</div>
+          <div class="text-xs text-gray-400 mt-1">Production ready</div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-gray-500 font-medium">Failed / Rejected</span>
+            <div class="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center">
+              <i data-lucide="x-circle" class="text-red-600 w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="text-3xl font-bold text-gray-900">0</div>
+          <div class="text-xs text-gray-400 mt-1">No failures</div>
+        </div>
+      </div>
+
+      <!-- Pipeline Visualization -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h2 class="text-base font-semibold text-gray-900 mb-5">Testing &amp; Sign-off Pipeline</h2>
+        <div class="flex items-center space-x-2">
+          <!-- Stage 1 -->
+          <div class="flex-1 border-2 border-blue-200 bg-blue-50 rounded-xl p-4 text-center">
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <i data-lucide="flask-conical" class="text-blue-600 w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1">Stage 1</div>
+            <div class="text-sm font-semibold text-gray-800">Sanity Testing</div>
+            <div class="text-xs text-gray-500 mt-1">Sign-off: R&D Head</div>
+            <div class="mt-2 text-xs bg-blue-100 text-blue-700 rounded px-2 py-0.5 inline-block">1 Active</div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="flex-shrink-0 text-gray-300">
+            <i data-lucide="chevron-right" class="w-6 h-6"></i>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="flex-1 border-2 border-orange-200 bg-orange-50 rounded-xl p-4 text-center">
+            <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <i data-lucide="car" class="text-orange-600 w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-orange-700 uppercase tracking-wide mb-1">Stage 2</div>
+            <div class="text-sm font-semibold text-gray-800">Field Testing</div>
+            <div class="text-xs text-gray-500 mt-1">Sign-off: Operations</div>
+            <div class="mt-2 text-xs bg-orange-100 text-orange-700 rounded px-2 py-0.5 inline-block">1 Active</div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="flex-shrink-0 text-gray-300">
+            <i data-lucide="chevron-right" class="w-6 h-6"></i>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="flex-1 border-2 border-purple-200 bg-purple-50 rounded-xl p-4 text-center">
+            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+              <i data-lucide="award" class="text-purple-600 w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-purple-700 uppercase tracking-wide mb-1">Stage 3</div>
+            <div class="text-sm font-semibold text-gray-800">Final Sign-off</div>
+            <div class="text-xs text-gray-500 mt-1">Sales Team Review</div>
+            <div class="mt-2 text-xs bg-green-100 text-green-700 rounded px-2 py-0.5 inline-block">1 Approved</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Firmware Table -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <h2 class="text-base font-semibold text-gray-900">Firmware Versions</h2>
+          <a href="firmware-list.html" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-1">
+            <span>View all</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-100 bg-gray-50">
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Version</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Device Model</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Created By</th>
+                <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Last Updated</th>
+                <th class="px-6 py-3"></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <i data-lucide="package" class="text-gray-400 w-4 h-4"></i>
+                    <span class="text-sm font-semibold text-gray-800">v2.5.0-beta</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">VTD-PRO-4G</td>
+                <td class="px-6 py-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">STAGE1_PENDING</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">Arjun Singh</td>
+                <td class="px-6 py-4 text-sm text-gray-400">May 28, 2026</td>
+                <td class="px-6 py-4">
+                  <a href="stage1-session.html" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-medium transition-colors">View →</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <i data-lucide="package" class="text-gray-400 w-4 h-4"></i>
+                    <span class="text-sm font-semibold text-gray-800">v2.4.1</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">VTD-PRO-4G</td>
+                <td class="px-6 py-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">STAGE2_PENDING</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">Arjun Singh</td>
+                <td class="px-6 py-4 text-sm text-gray-400">May 25, 2026</td>
+                <td class="px-6 py-4">
+                  <a href="stage2-session.html" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-medium transition-colors">View →</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <i data-lucide="package" class="text-gray-400 w-4 h-4"></i>
+                    <span class="text-sm font-semibold text-gray-800">v2.3.8</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">VTD-LITE</td>
+                <td class="px-6 py-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 font-semibold">APPROVED</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">Arjun Singh</td>
+                <td class="px-6 py-4 text-sm text-gray-400">May 18, 2026</td>
+                <td class="px-6 py-4">
+                  <a href="stage3-signoff.html" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-medium transition-colors">View →</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    <i data-lucide="package" class="text-gray-400 w-4 h-4"></i>
+                    <span class="text-sm font-semibold text-gray-800">v2.4.2</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">VTD-COMPACT</td>
+                <td class="px-6 py-4">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">DRAFT</span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">Arjun Singh</td>
+                <td class="px-6 py-4 text-sm text-gray-400">May 28, 2026</td>
+                <td class="px-6 py-4">
+                  <a href="firmware-list.html" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-medium transition-colors">View →</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    lucide.createIcons();
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

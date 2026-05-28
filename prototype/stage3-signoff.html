@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stage 3 Final Sign-off — abckedn</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+  <!-- Sidebar (Vikram Joshi) -->
+  <aside id="sidebar" class="w-64 bg-white border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-30 transition-transform duration-200">
+    <div class="h-16 flex items-center px-5 border-b border-gray-200 flex-shrink-0">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+        <i data-lucide="cpu" class="text-white w-4 h-4"></i>
+      </div>
+      <span class="text-lg font-bold text-gray-900">abckedn</span>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <a href="dashboard.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="firmware-list.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="cpu" class="w-4 h-4"></i>
+        <span>Firmware Versions</span>
+      </a>
+      <a href="stage1-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="flask-conical" class="w-4 h-4"></i>
+        <span>Stage 1 – Sanity Test</span>
+      </a>
+      <a href="stage2-session.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="car" class="w-4 h-4"></i>
+        <span>Stage 2 – Field Test</span>
+      </a>
+      <a href="stage3-signoff.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-purple-50 text-purple-700 font-semibold text-sm">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Stage 3 – Final Sign-off</span>
+      </a>
+      <a href="changelog.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-sm transition-colors">
+        <i data-lucide="scroll-text" class="w-4 h-4"></i>
+        <span>Change Log</span>
+      </a>
+    </nav>
+    <div class="border-t border-gray-200 p-4 flex items-center space-x-3">
+      <div class="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">V</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold text-gray-800 truncate">Vikram Joshi</div>
+        <div class="text-xs text-gray-500 truncate">Sales Manager</div>
+      </div>
+      <a href="index.html" class="text-gray-400 hover:text-gray-600"><i data-lucide="log-out" class="w-4 h-4"></i></a>
+    </div>
+  </aside>
+
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <div class="flex-1 ml-64">
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center px-6 sticky top-0 z-10">
+      <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-gray-700 mr-3">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+      <nav class="flex items-center space-x-2 text-sm flex-1">
+        <a href="stage3-signoff.html" class="text-gray-500 hover:text-blue-600">Stage 3 – Final Sign-off</a>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <span class="text-gray-500">v2.3.8</span>
+        <i data-lucide="chevron-right" class="text-gray-300 w-4 h-4"></i>
+        <span class="text-gray-900 font-semibold">Session #2835</span>
+      </nav>
+      <div class="flex items-center space-x-2">
+        <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">Sales Manager</span>
+        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold">V</div>
+      </div>
+    </header>
+
+    <main class="p-6 space-y-5">
+
+      <!-- Session Header -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+              <i data-lucide="award" class="text-purple-600 w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h1 class="text-lg font-bold text-gray-900">Stage 3 — Final Sign-off</h1>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">COMPLETED</span>
+              </div>
+              <div class="flex items-center space-x-4 mt-1 flex-wrap gap-y-1">
+                <span class="text-sm text-gray-600 font-medium">v2.3.8</span>
+                <span class="text-gray-300">|</span>
+                <span class="text-sm text-gray-500">VTD-LITE</span>
+                <span class="text-gray-300">|</span>
+                <span class="text-xs text-gray-500">Sales Team Reviewer: Vikram Joshi</span>
+                <span class="text-gray-300">|</span>
+                <span class="text-xs text-gray-500">Session #2835</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journey Timeline -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <h3 class="text-sm font-semibold text-gray-700 mb-5 flex items-center space-x-2">
+          <i data-lucide="milestone" class="text-purple-500 w-4 h-4"></i>
+          <span>Testing Journey — v2.3.8 VTD-LITE</span>
+        </h3>
+        <div class="space-y-0">
+          <!-- Stage 1 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex flex-col items-center">
+              <div class="w-9 h-9 bg-emerald-100 rounded-full flex items-center justify-center border-2 border-emerald-400">
+                <i data-lucide="check" class="text-emerald-600 w-4 h-4"></i>
+              </div>
+              <div class="w-0.5 h-10 bg-emerald-200 my-1"></div>
+            </div>
+            <div class="flex-1 pb-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-semibold text-gray-800">Stage 1 — Sanity Testing</div>
+                  <div class="text-xs text-gray-500 mt-0.5">Approved by <strong>Dr. Rajan Mehta</strong> (R&D Head)</div>
+                  <div class="text-xs text-gray-400 mt-0.5 italic">"Protocol compliance verified. All critical tests passed. Approved for field testing."</div>
+                </div>
+                <div class="text-right ml-4">
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs font-semibold">APPROVED</span>
+                  <div class="text-xs text-gray-400 mt-1">May 9, 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Stage 2 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex flex-col items-center">
+              <div class="w-9 h-9 bg-emerald-100 rounded-full flex items-center justify-center border-2 border-emerald-400">
+                <i data-lucide="check" class="text-emerald-600 w-4 h-4"></i>
+              </div>
+              <div class="w-0.5 h-10 bg-purple-200 my-1"></div>
+            </div>
+            <div class="flex-1 pb-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-semibold text-gray-800">Stage 2 — Field Testing</div>
+                  <div class="text-xs text-gray-500 mt-0.5">Approved by <strong>Priya Sharma</strong> (Operations Lead)</div>
+                  <div class="text-xs text-gray-400 mt-0.5 italic">"Field performance meets all specifications. GPS accuracy ±8m. No critical issues. Cleared for final sign-off."</div>
+                </div>
+                <div class="text-right ml-4">
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs font-semibold">APPROVED</span>
+                  <div class="text-xs text-gray-400 mt-1">May 14, 2026</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Stage 3 -->
+          <div class="flex items-start space-x-4">
+            <div class="flex flex-col items-center">
+              <div class="w-9 h-9 bg-purple-100 rounded-full flex items-center justify-center border-2 border-purple-400 animate-pulse">
+                <i data-lucide="clock" class="text-purple-600 w-4 h-4"></i>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-semibold text-gray-800">Stage 3 — Final Sign-off</div>
+                  <div class="text-xs text-gray-500 mt-0.5">Awaiting review by <strong>Vikram Joshi</strong> (Sales Manager)</div>
+                  <div class="text-xs text-purple-600 mt-0.5 font-medium">⏳ PENDING YOUR REVIEW — Today, May 28, 2026</div>
+                </div>
+                <div class="text-right ml-4">
+                  <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs font-semibold">YOUR REVIEW</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-5 gap-3">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 text-center"><div class="text-2xl font-bold text-gray-800">10</div><div class="text-xs text-gray-500 mt-1">Total</div></div>
+        <div class="bg-green-50 rounded-xl border border-green-200 shadow-sm p-4 text-center"><div class="text-2xl font-bold text-green-700">9</div><div class="text-xs text-green-600 mt-1">Pass</div></div>
+        <div class="bg-red-50 rounded-xl border border-red-200 shadow-sm p-4 text-center"><div class="text-2xl font-bold text-red-700">0</div><div class="text-xs text-red-600 mt-1">Fail</div></div>
+        <div class="bg-yellow-50 rounded-xl border border-yellow-200 shadow-sm p-4 text-center"><div class="text-2xl font-bold text-yellow-700">1</div><div class="text-xs text-yellow-600 mt-1">Skip</div></div>
+        <div class="bg-gray-50 rounded-xl border border-gray-200 shadow-sm p-4 text-center"><div class="text-2xl font-bold text-gray-400">0</div><div class="text-xs text-gray-400 mt-1">Pending</div></div>
+      </div>
+
+      <!-- Success Banner -->
+      <div class="flex items-center space-x-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+        <i data-lucide="check-circle-2" class="text-emerald-500 w-5 h-5 flex-shrink-0"></i>
+        <p class="text-sm text-emerald-800 font-medium">All 10 Stage 3 validation checks completed. Ready for final Sales Team sign-off.</p>
+      </div>
+
+      <!-- Test Cases -->
+      <div class="space-y-3">
+        <!-- Tracking Application Review -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center"><i data-lucide="monitor" class="text-purple-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Tracking Application Review</div>
+                <div class="text-xs text-gray-400 mt-0.5">5 tests &nbsp;•&nbsp; <span class="text-green-600">4 passed</span> &nbsp;•&nbsp; <span class="text-yellow-600">1 skipped</span></div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium mr-4">4 Pass / 1 Skip</span>
+            <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Dashboard Live View Verification</div><div class="text-xs text-gray-400 mt-0.5">Verify vehicle visible on sales demo dashboard in real-time</div><div class="text-xs text-gray-400 mt-0.5">Expected: Position visible, updates &lt; 10s delay</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Trip History Report Export</div><div class="text-xs text-gray-400 mt-0.5">Export trip report as PDF/Excel from dashboard</div><div class="text-xs text-gray-400 mt-0.5">Expected: Report generates within 10s, all data present</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Alert Notification Delivery (Customer App)</div><div class="text-xs text-gray-400 mt-0.5">Trigger over-speed, verify push notification on customer mobile app</div><div class="text-xs text-gray-400 mt-0.5">Expected: Push notification within 5s on registered device</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Fleet Summary Dashboard</div><div class="text-xs text-gray-400 mt-0.5">Verify fleet summary view shows all vehicles, status, last known location</div><div class="text-xs text-gray-400 mt-0.5">Expected: All fleet vehicles visible, data &lt; 5 min old</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">API Integration Test (Customer CRM)</div><div class="text-xs text-gray-400 mt-0.5">CRM integration via REST API — vehicle data in customer system</div><div class="text-xs text-gray-400 mt-0.5">Expected: Data flows to customer CRM — Deferred to pilot phase</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">SKIP</span></div></div>
+          </div>
+        </div>
+
+        <!-- Field Testing Validation -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center"><i data-lucide="car" class="text-green-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Field Testing Validation</div>
+                <div class="text-xs text-gray-400 mt-0.5">3 tests &nbsp;•&nbsp; <span class="text-green-600">3 passed</span></div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium mr-4">All Pass</span>
+            <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Field Test Duration Adequacy (9 days)</div><div class="text-xs text-gray-400 mt-0.5">Confirm minimum 7-day field test period completed</div><div class="text-xs text-gray-400 mt-0.5">Expected: ≥ 7 days, ≥ 500km driven in field</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">No Critical Failures in Field</div><div class="text-xs text-gray-400 mt-0.5">Confirm Stage 2 had zero Severity-1 failures</div><div class="text-xs text-gray-400 mt-0.5">Expected: 0 critical (P1) failures in field test</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Operations Team Sign-off Received</div><div class="text-xs text-gray-400 mt-0.5">Confirm formal Stage 2 sign-off from Operations Lead on file</div><div class="text-xs text-gray-400 mt-0.5">Expected: Signed approval record with date and comments</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+          </div>
+        </div>
+
+        <!-- Compliance Check -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors" onclick="toggleCategory(this)">
+            <div class="flex items-center space-x-3">
+              <div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center"><i data-lucide="shield-check" class="text-blue-600 w-3.5 h-3.5"></i></div>
+              <div class="text-left">
+                <div class="text-sm font-semibold text-gray-800">Compliance Check</div>
+                <div class="text-xs text-gray-400 mt-0.5">2 tests &nbsp;•&nbsp; <span class="text-green-600">2 passed</span></div>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium mr-4">All Pass</span>
+            <i data-lucide="chevron-up" class="text-gray-400 w-4 h-4 chevron"></i>
+          </button>
+          <div class="category-body border-t border-gray-100 divide-y divide-gray-50">
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">AIS 140 Compliance Verification</div><div class="text-xs text-gray-400 mt-0.5">Verify VTD-LITE meets AIS 140 GPS tracking device standard</div><div class="text-xs text-gray-400 mt-0.5">Expected: AIS 140 compliant, certificate on file</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+            <div class="px-5 py-3 flex items-center justify-between"><div class="flex-1"><div class="text-sm font-medium text-gray-800">Data Privacy &amp; Security Audit</div><div class="text-xs text-gray-400 mt-0.5">Confirm data encryption at rest and in transit, access controls</div><div class="text-xs text-gray-400 mt-0.5">Expected: AES-256 encryption, TLS 1.3 in transit</div></div><div class="flex items-center space-x-2 ml-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">PASS</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+        <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center space-x-2">
+          <i data-lucide="bar-chart-2" class="text-purple-500 w-4 h-4"></i>
+          <span>Overall Testing Metrics — v2.3.8 VTD-LITE</span>
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-purple-50 rounded-xl p-4 text-center border border-purple-100">
+            <div class="text-2xl font-bold text-purple-700">77</div>
+            <div class="text-xs text-purple-600 mt-1">Total Test Cases<br/>(All 3 Stages)</div>
+          </div>
+          <div class="bg-green-50 rounded-xl p-4 text-center border border-green-100">
+            <div class="text-2xl font-bold text-green-700">94%</div>
+            <div class="text-xs text-green-600 mt-1">Overall<br/>Pass Rate</div>
+          </div>
+          <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+            <div class="text-2xl font-bold text-blue-700">9 days</div>
+            <div class="text-xs text-blue-600 mt-1">Field Test<br/>Duration</div>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100">
+            <div class="text-2xl font-bold text-amber-700">±8m</div>
+            <div class="text-xs text-amber-600 mt-1">GPS Accuracy<br/>Urban Average</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sign-off Card -->
+      <div class="bg-white rounded-xl border-2 border-purple-300 shadow-sm">
+        <div class="px-6 py-4 border-b border-purple-100 bg-purple-50 rounded-t-xl">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center">
+              <i data-lucide="award" class="text-purple-600 w-5 h-5"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-purple-900">Stage 3 Final Sign-off — Sales Team Approval</h2>
+              <p class="text-xs text-purple-600 mt-0.5">This is the final approval before v2.3.8 is cleared for production deployment.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-5">
+          <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div class="text-xs font-semibold text-blue-700 mb-2 flex items-center space-x-1">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              <span>Customer Readiness Summary</span>
+            </div>
+            <div class="text-xs text-blue-800 space-y-1">
+              <div>• Pune pilot fleet: 12 vehicles — ready for deployment</div>
+              <div>• Mumbai pilot fleet: 8 vehicles — ready for deployment</div>
+              <div>• Nagpur fleet (Q3): 25 vehicles — pending commercial agreement</div>
+            </div>
+          </div>
+
+          <!-- Decision -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-3">Final Decision</label>
+            <div class="space-y-3">
+              <label id="approveOption" class="flex items-start space-x-3 p-4 border-2 border-green-400 bg-green-50 rounded-xl cursor-pointer">
+                <div class="w-5 h-5 rounded-full border-2 border-green-500 bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+                </div>
+                <div>
+                  <div class="text-sm font-semibold text-green-800 flex items-center space-x-2">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span>APPROVE — Clear for Production</span>
+                  </div>
+                  <div class="text-xs text-green-700 mt-0.5">All testing stages complete and satisfactory. Approve v2.3.8 for commercial deployment.</div>
+                </div>
+              </label>
+              <label id="rejectOption" onclick="selectDecision('reject')" class="flex items-start space-x-3 p-4 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer hover:border-red-300 transition-colors">
+                <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="w-2.5 h-2.5 rounded-full"></div>
+                </div>
+                <div>
+                  <div class="text-sm font-semibold text-gray-600 flex items-center space-x-2">
+                    <i data-lucide="x-circle" class="w-4 h-4"></i>
+                    <span>REJECT — Return for Remediation</span>
+                  </div>
+                  <div class="text-xs text-gray-500 mt-0.5">Platform issues found. Return for further testing before commercial deployment.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Comments -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Sign-off Comments</label>
+            <textarea rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none">Platform verified across all test categories. Dashboard visibility excellent — sales demo ready. Customers in Pune and Mumbai pilots confirmed ready for deployment. GPS accuracy of ±8m exceeds customer SLA requirement of ±15m. Approved for production deployment.</textarea>
+          </div>
+
+          <div class="flex items-center space-x-3 pt-2">
+            <button onclick="submitSignoff()" class="bg-purple-600 text-white hover:bg-purple-700 px-6 py-2.5 rounded-lg text-sm font-semibold flex items-center space-x-2 transition-colors shadow-sm">
+              <i data-lucide="award" class="w-4 h-4"></i>
+              <span>Submit Final Sign-off</span>
+            </button>
+            <p class="text-xs text-gray-400">Signing as: <strong>Vikram Joshi</strong> — Sales Manager &nbsp;|&nbsp; May 28, 2026</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 text-center relative overflow-hidden">
+      <!-- Decorative background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-green-50 opacity-50 pointer-events-none rounded-2xl"></div>
+      <div class="relative z-10">
+        <!-- Stars / Confetti effect -->
+        <div class="flex justify-center space-x-2 mb-4 text-2xl">
+          <span>🎉</span>
+          <span>⭐</span>
+          <span>🎉</span>
+        </div>
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-green-300">
+          <i data-lucide="check-circle-2" class="text-green-600 w-10 h-10"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">v2.3.8 VTD-LITE is Approved!</h3>
+        <div class="inline-block px-4 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-bold mb-4">
+          STATUS: APPROVED FOR PRODUCTION
+        </div>
+        <p class="text-sm text-gray-600 mb-2">
+          All <strong>3 stages</strong> have been successfully signed off. The firmware has been cleared for <strong>commercial deployment</strong>.
+        </p>
+        <div class="grid grid-cols-3 gap-3 my-5 text-center">
+          <div class="bg-blue-50 rounded-xl p-3 border border-blue-100">
+            <div class="text-xs font-bold text-blue-700">Stage 1</div>
+            <div class="text-xs text-gray-500 mt-0.5">Dr. Rajan Mehta</div>
+            <div class="text-xs text-green-600 font-semibold">✓ Approved</div>
+          </div>
+          <div class="bg-orange-50 rounded-xl p-3 border border-orange-100">
+            <div class="text-xs font-bold text-orange-700">Stage 2</div>
+            <div class="text-xs text-gray-500 mt-0.5">Priya Sharma</div>
+            <div class="text-xs text-green-600 font-semibold">✓ Approved</div>
+          </div>
+          <div class="bg-purple-50 rounded-xl p-3 border border-purple-100">
+            <div class="text-xs font-bold text-purple-700">Stage 3</div>
+            <div class="text-xs text-gray-500 mt-0.5">Vikram Joshi</div>
+            <div class="text-xs text-green-600 font-semibold">✓ Approved</div>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 mb-6">Deployment clearance issued: May 28, 2026 &nbsp;|&nbsp; abckedn Platform</p>
+        <div class="flex items-center space-x-3">
+          <a href="dashboard.html" class="flex-1 bg-purple-600 text-white hover:bg-purple-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors text-center">
+            Return to Dashboard
+          </a>
+          <a href="changelog.html" class="flex-1 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors text-center">
+            View Change Log
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    lucide.createIcons();
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      document.getElementById('overlay').classList.toggle('hidden');
+    }
+
+    function toggleCategory(btn) {
+      const body = btn.nextElementSibling;
+      const chevron = btn.querySelector('.chevron');
+      const isOpen = !body.classList.contains('hidden');
+      if (isOpen) { body.classList.add('hidden'); chevron.style.transform = 'rotate(180deg)'; }
+      else { body.classList.remove('hidden'); chevron.style.transform = 'rotate(0deg)'; }
+    }
+
+    function selectDecision(d) {
+      if (d === 'reject') {
+        document.getElementById('approveOption').className = 'flex items-start space-x-3 p-4 border-2 border-gray-200 bg-gray-50 rounded-xl cursor-pointer hover:border-green-300 transition-colors';
+        document.getElementById('rejectOption').className = 'flex items-start space-x-3 p-4 border-2 border-red-400 bg-red-50 rounded-xl cursor-pointer transition-colors';
+      }
+    }
+
+    function submitSignoff() {
+      document.getElementById('successModal').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
