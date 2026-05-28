@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { LucideAngularModule, LayoutDashboard, Cpu, FlaskConical, Car, Award, ScrollText, LogOut, Menu, X, ChevronRight } from 'lucide-angular';
@@ -7,7 +7,7 @@ import { LucideAngularModule, LayoutDashboard, Cpu, FlaskConical, Car, Award, Sc
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, LucideAngularModule],
+  imports: [RouterLink, RouterLinkActive, LucideAngularModule],
   template: `
     <div class="flex h-screen bg-gray-50 overflow-hidden">
       <!-- Mobile overlay -->
@@ -20,10 +20,7 @@ import { LucideAngularModule, LayoutDashboard, Cpu, FlaskConical, Car, Award, Sc
 
       <!-- Sidebar -->
       <aside
-        class="fixed lg:static inset-y-0 left-0 z-30 flex flex-col w-64 bg-gray-900 text-white transition-transform duration-300"
-        [class.-translate-x-full]="!sidebarOpen()"
-        [class.translate-x-0]="sidebarOpen()"
-        [class.lg:translate-x-0]="true"
+        [class]="'fixed lg:static inset-y-0 left-0 z-30 flex flex-col w-64 bg-gray-900 text-white transition-transform duration-300 ' + (sidebarOpen() ? 'translate-x-0' : '-translate-x-full lg:translate-x-0')"
       >
         <!-- Logo / Brand -->
         <div class="flex items-center px-6 py-5 border-b border-gray-700">
@@ -149,7 +146,7 @@ import { LucideAngularModule, LayoutDashboard, Cpu, FlaskConical, Car, Award, Sc
 
         <!-- Page content -->
         <main class="flex-1 overflow-y-auto">
-          <router-outlet></router-outlet>
+          <ng-content></ng-content>
         </main>
       </div>
     </div>
