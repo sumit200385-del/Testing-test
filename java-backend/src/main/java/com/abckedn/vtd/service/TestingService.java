@@ -218,6 +218,7 @@ public class TestingService {
 
         testCaseRepository.saveAll(testCases);
 
+        final TestingSession savedSession = session;
         changeLogService.log(
                 "TestingSession",
                 session.getId().toString(),
@@ -230,7 +231,7 @@ public class TestingService {
 
         List<TestCaseDto> caseDtos = testCases.stream().map(tc -> new TestCaseDto(
                 tc.getId(),
-                session.getId(),
+                savedSession.getId(),
                 tc.getCategory(),
                 tc.getTestName(),
                 tc.getDescription(),
